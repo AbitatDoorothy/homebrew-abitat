@@ -1,10 +1,11 @@
 class Abitat < Formula
   desc "Remote Codex control from Mac and iPhone"
-  homepage "https://workspace.abitat.io"
-  url "https://registry.npmjs.org/@abitat_reece/cli/-/cli-0.1.4.tgz"
-  sha256 "69f2d7f044783c38281bf709d3cf164dbd1e267f0492a4695a284cc3b4a3a46a"
+  homepage "https://github.com/AbitatDoorothy/Workspace"
+  url "https://registry.npmjs.org/@abitat_reece/cli/-/cli-0.1.6.tgz"
+  sha256 "9bf4b0e538c0cf4ec588b951fd05d39174e9c415fc70350ac5e7384bc689c54d"
 
   depends_on "python" => :build
+  depends_on "cloudflared"
   depends_on "node@22"
 
   def install
@@ -13,7 +14,8 @@ class Abitat < Formula
   end
 
   test do
+    ENV["ABITAT_CLI_CONFIG_PATH"] = testpath/"config.json"
     assert_match "Usage: abitat", shell_output("#{bin}/abitat help")
-    assert_match "Not logged in. Run `abitat login`.", shell_output("#{bin}/abitat doctor")
+    assert_match "Local iPhone control does not require an Abitat hosted login.", shell_output("#{bin}/abitat doctor")
   end
 end
